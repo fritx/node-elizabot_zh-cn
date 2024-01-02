@@ -1,3 +1,22 @@
+__Chinese (zh-cn) Fork of tkafka / node-elizabot__
+
+```js
+let ElizaBot = require('elizabot-zh')
+let eliza = new ElizaBot()
+let initial = eliza.getInitial()
+// >> '有什么事情困扰你吗？'
+let reply = eliza.transform('你好吗')
+// >> '你好。请告诉我你的问题。'
+```
+
+```sh
+# Testing
+npm install --global xv
+xv
+```
+
+---
+
 Adaptation of http://www.masswerk.at/elizabot/ eliza chat bot to node.js command line app.
 
 elizabot.js v.1.1 - ELIZA JS library (N.Landsteiner 2005)

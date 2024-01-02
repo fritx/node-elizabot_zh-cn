@@ -47,7 +47,7 @@
 
 "use strict";
 
-var elizaData = require('./elizadata');
+var elizaData = require('./elizadata_zh-cn');
 
 function ElizaBot(noRandomFlag) {
 	this.noRandom= (noRandomFlag)? true:false;
@@ -124,9 +124,9 @@ ElizaBot.prototype._init = function() {
 					var rp=r[0];
 					while (m) {
 						lp+=rp.substring(0,m.index+1);
-						if (m[1]!=')') lp+='\\b';
+						// if (m[1]!=')') lp+='\\b';
 						lp+='\\s*(.*)\\s*';
-						if ((m[2]!='(') && (m[2]!='\\')) lp+='\\b';
+						// if ((m[2]!='(') && (m[2]!='\\')) lp+='\\b';
 						lp+=m[2];
 						rp=rp.substring(m.index+m[0].length);
 						m=are.exec(rp);
@@ -136,13 +136,13 @@ ElizaBot.prototype._init = function() {
 				m=are1.exec(r[0]);
 				if (m) {
 					var lp='\\s*(.*)\\s*';
-					if ((m[1]!=')') && (m[1]!='\\')) lp+='\\b';
+					// if ((m[1]!=')') && (m[1]!='\\')) lp+='\\b';
 					r[0]=lp+r[0].substring(m.index-1+m[0].length);
 				}
 				m=are2.exec(r[0]);
 				if (m) {
 					var lp=r[0].substring(0,m.index+1);
-					if (m[1]!='(') lp+='\\b';
+					// if (m[1]!='(') lp+='\\b';
 					r[0]=lp+'\\s*(.*)\\s*';
 				}
 			}
@@ -162,7 +162,10 @@ ElizaBot.prototype._init = function() {
 			a.push(elizaData.elizaPres[i]);
 			ElizaBot.prototype.pres[elizaData.elizaPres[i]]=elizaData.elizaPres[i+1];
 		}
-		ElizaBot.prototype.preExp = new RegExp('\\b('+a.join('|')+')\\b');
+
+		// let reg = '\\b('+a.join('|')+')\\b'
+		let reg = '('+a.join('|')+')'
+		ElizaBot.prototype.preExp = new RegExp(reg)
 	}
 	else {
 		// default (should not match)
@@ -175,7 +178,10 @@ ElizaBot.prototype._init = function() {
 			a.push(elizaData.elizaPosts[i]);
 			ElizaBot.prototype.posts[elizaData.elizaPosts[i]]=elizaData.elizaPosts[i+1];
 		}
-		ElizaBot.prototype.postExp = new RegExp('\\b('+a.join('|')+')\\b');
+
+		// let reg = '\\b('+a.join('|')+')\\b'
+		let reg = '('+a.join('|')+')'
+		ElizaBot.prototype.postExp = new RegExp(reg)
 	}
 	else {
 		// default (should not match)
@@ -207,11 +213,15 @@ ElizaBot.prototype.transform = function(text) {
 	text=text.toLowerCase();
 	text=text.replace(/@#\$%\^&\*\(\)_\+=~`\{\[\}\]\|:;<>\/\\\t/g, ' ');
 	text=text.replace(/\s+-+\s+/g, '.');
-	text=text.replace(/\s*[,\.\?!;]+\s*/g, '.');
-	text=text.replace(/\s*\bbut\b\s*/g, '.');
+	// text=text.replace(/\s*[,\.\?!;]+\s*/g, '.');
+	text=text.replace(/\s*[,\.\?!;，。？！；]+\s*/g, '.');
+	// text=text.replace(/\s*\bbut\b\s*/g, '.');
+	text=text.replace(/\s*(但是|可是|然而)\s*/g, '.');
 	text=text.replace(/\s{2,}/g, ' ');
 	// split text in part sentences and loop through them
-	var parts=text.split('.');
+	// var parts=text.split('.');
+	var parts=text.split(/[.。]/g);
+
 	for (var i=0; i<parts.length; i++) {
 		var part=parts[i];
 		if (part!='') {
@@ -237,7 +247,11 @@ ElizaBot.prototype.transform = function(text) {
 			this.sentence=part;
 			// loop trough keywords
 			for (var k=0; k<elizaData.elizaKeywords.length; k++) {
-				if (part.search(new RegExp('\\b'+elizaData.elizaKeywords[k][0]+'\\b', 'i'))>=0) {
+				// let reg = '\\b'+elizaData.elizaKeywords[k][0]+'\\b'
+				// let reg = '(^|\\W)'+elizaData.elizaKeywords[k][0]+'($|\\W)'
+				let reg = elizaData.elizaKeywords[k][0]
+
+				if (part.search(new RegExp(reg, 'i'))>=0) {
 					rpl = this._execRule(k);
 				}
 				if (rpl!='') return rpl;

@@ -1,11 +1,13 @@
 {
-	"name": "elizabot",
+	"name": "elizabot-zh",
 	"description": "Adaptation of http://www.masswerk.at/elizabot/ for node.js.",
 	"author": "Tomas Kafka <tk@tomaskafka.com>",
 	"version": "0.0.3",
-	"repository": "https://github.com/tkafka/node-elizabot.git",
-	"main": "elizabot.js",
-	"dependencies": {},
+	"repository": "https://github.com/fritx/node-elizabot_zh-cn.git",
+	"main": "elizabot_zh.js",
+	"scripts": {
+		"test": "xv"
+	},
 	"devDependencies": {
 		"eslint": "^7.0.0"
 	},
