@@ -2,7 +2,7 @@
 	"name": "elizabot-zh",
 	"description": "Adaptation of http://www.masswerk.at/elizabot/ for node.js.",
 	"author": "Tomas Kafka <tk@tomaskafka.com>",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"repository": "https://github.com/fritx/node-elizabot_zh-cn.git",
 	"main": "elizabot_zh.js",
 	"scripts": {
